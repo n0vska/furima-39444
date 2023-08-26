@@ -1,5 +1,8 @@
 class ItemsController < ApplicationController
   def index
-    # indexアクションの処理を記述
+    @items = Item.order("created_at DESC")
+  end
+
+  def new
   end
 end
