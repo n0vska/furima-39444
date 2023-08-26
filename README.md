@@ -29,7 +29,7 @@ Things you may want to cover:
 |-----------------|-----------|---------------------------|
 | nickname        | string    | null: false               |
 | email           | string    | null: false, unique: true |
-| password_digest | string    | null: false               |
+| encrypted_password | string    | null: false               |
 | last_name       | string    | null: false               |
 | first_name      | string    | null: false               |
 | last_name_kana  | string    | null: false               |
@@ -47,30 +47,39 @@ Things you may want to cover:
 | name           | string    | null: false               |
 | description    | text      | null: false               |
 | user           | references| null: false, foreign_key: true |
+| category_id    | integer   | null: false               |
+| condition_id   | integer   | null: false               |
+| shipping_fee_id| integer   | null: false               |
+| prefecture_id  | integer  | null: false               |
+| days_until_shipping_id| integer | null: false               |
 | price          | integer   | null: false               |
 
 ### Association
 - belongs_to :user
+- belongs_to :category, class_name: 'ActiveHashModel'
+- belongs_to :condition, class_name: 'ActiveHashModel'
+- belongs_to :shipping_fee, class_name: 'ActiveHashModel'
+- belongs_to :prefecture, class_name: 'ActiveHashModel'
+- belongs_to :days_until_shipping, class_name: 'ActiveHashModel'
 - has_one :purchase_record
 
 ## 購入記録テーブル（PurchaseRecordsテーブル）
 
 | Column        | Type      | Options                        |
 |---------------|-----------|--------------------------------|
-| buyer_user    | references| null: false, foreign_key: true |
-| item          | references| null: false, foreign_key: true |
+| user_id       | references| null: false, foreign_key: true |
+| item_id       | references| null: false, foreign_key: true |
 
 ### Association
-- belongs_to :user, foreign_key: :buyer_id
+- belongs_to :user
 - belongs_to :item
 
 ## 発送先情報テーブル（ShippingAddressesテーブル）
 
 | Column         | Type      | Options                   |
 |----------------|-----------|---------------------------|
-| buyer_user     | references| null: false, foreign_key: true |
 | postal_code    | string    | null: false               |
-| prefecture     | string    | null: false               |
+| prefecture_id  | integer   | null: false               |
 | city           | string    | null: false               |
 | street_address | string    | null: false               |
 | building_name  | string    |                           |
@@ -78,3 +87,6 @@ Things you may want to cover:
 
 ### Association
 - belongs_to :user
+- belongs_to :purchase_record
+- belongs_to :prefecture, class_name: 'ActiveHashModel'
+
