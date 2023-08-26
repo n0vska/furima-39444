@@ -37,8 +37,8 @@ Things you may want to cover:
 | birthdate       | date      | null: false               |
 
 ### Association
-- has_many :items
-- has_many :purchase_records
+- has_many :item
+- has_many :purchase_record
 
 ## 商品情報テーブル（Itemsテーブル）
 
@@ -56,12 +56,13 @@ Things you may want to cover:
 
 ### Association
 - belongs_to :user
+- has_many :purchase_record
 - belongs_to :category, class_name: 'ActiveHashModel'
 - belongs_to :condition, class_name: 'ActiveHashModel'
 - belongs_to :shipping_fee, class_name: 'ActiveHashModel'
 - belongs_to :prefecture, class_name: 'ActiveHashModel'
 - belongs_to :days_until_shipping, class_name: 'ActiveHashModel'
-- has_one :purchase_record
+
 
 ## 購入記録テーブル（PurchaseRecordsテーブル）
 
@@ -73,6 +74,7 @@ Things you may want to cover:
 ### Association
 - belongs_to :user
 - belongs_to :item
+- has_one :shipping_addresse
 
 ## 発送先情報テーブル（ShippingAddressesテーブル）
 
@@ -87,5 +89,5 @@ Things you may want to cover:
 | phone_number    | string    | null: false               |
 
 ### Association
-- belongs_to :purchase_record
+- has_one :purchase_record
 - belongs_to :prefecture, class_name: 'ActiveHashModel'
