@@ -78,15 +78,15 @@ Things you may want to cover:
 
 ## 発送先情報テーブル（ShippingAddressesテーブル）
 
-| Column          | Type      | Options                   |
-|-----------------|-----------|---------------------------|
-| purchase_record | reference | null: false, foreign_key: true |
-| postal_code     | string    | null: false               |
-| prefecture_id   | integer   | null: false               |
-| city            | string    | null: false               |
-| street_address  | string    | null: false               |
-| building_name   | string    |                           |
-| phone_number    | string    | null: false               |
+| Column          | Type       | Options                   |
+|-----------------|------------|---------------------------|
+| purchase_record | references | null: false, foreign_key: true |
+| postal_code     | string     | null: false               |
+| prefecture_id   | integer    | null: false               |
+| city            | string     | null: false               |
+| street_address  | string     | null: false               |
+| building_name   | string     |                           |
+| phone_number    | string     | null: false               |
 
 ### Association
 - belongs_to :purchase_record
