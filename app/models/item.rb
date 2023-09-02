@@ -7,11 +7,7 @@ class Item < ApplicationRecord
   belongs_to :days_until_shipping
   has_one_attached :image
 
-  validates :item_category, presence: true
-  validates :item_condition, presence: true
-  validates :prefecture, presence: true
-  validates :shipping_fee, presence: true
-  validates :days_until_shipping, presence: true
+  validates :item_category_id, :item_condition_id, :prefecture_id, :shipping_fee_id, :days_until_shipping_id, presence: true
 
   with_options numericality: { other_than: 1, message: "can't be blank" } do
     validates :item_category_id
