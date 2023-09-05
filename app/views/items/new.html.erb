@@ -6,11 +6,7 @@
   <div class="items-sell-main">
     <h2 class="items-sell-title">商品の情報を入力</h2>
     <%= form_with(model: @item, local: true) do |f| %>
-
-
-    <%# インスタンスを渡して、エラー発生時にメッセージが表示されるようにしましょう。%>
-    <%# render 'shared/error_messages', model: f.object %>
-    <%# //インスタンスを渡して、エラー発生時にメッセージが表示されるようにしましょう。%>
+    <%= render 'shared/error_messages', model: f.object %>
 
     <%# 商品画像 %>
     <div class="img-upload">
@@ -51,12 +47,12 @@
           カテゴリー
           <span class="indispensable">必須</span>
         </div>
-        <%= f.select :item_category_id, options_for_select(ItemCategory.data.map { |h| [h[:name], h[:id]] }), {}, {class:"select-box", id:"item-category"} %>
+        <%= f.select :category_id, options_for_select(Category.data.map { |h| [h[:name], h[:id]] }), {}, {class:"select-box", id:"category"} %>
         <div class="weight-bold-text">
           商品の状態
           <span class="indispensable">必須</span>
         </div>
-        <%= f.select :condition_id, options_for_select(ItemCondition.data.map { |h| [h[:name], h[:id]] }), {}, {class:"select-box", id:"item-sales-status"} %>
+        <%= f.select :condition_id, options_for_select(Condition.data.map { |h| [h[:name], h[:id]] }), {}, {class:"select-box", id:"condition"} %>
       </div>
     </div>
     <%# /商品の詳細 %>
@@ -72,17 +68,17 @@
           配送料の負担
           <span class="indispensable">必須</span>
         </div>
-        <%= f.select :shipping_fee_id, options_for_select(ShippingFee.data.map { |h| [h[:name], h[:id]] }), {}, {class:"select-box", id:"item-shipping-fee-status"} %>
+        <%= f.select :shipping_fee_id, options_for_select(ShippingFee.data.map { |h| [h[:name], h[:id]] }), {}, {class:"select-box", id:"shipping-fee-status"} %>
         <div class="weight-bold-text">
           発送元の地域
           <span class="indispensable">必須</span>
         </div>
-        <%= f.select :prefecture_id, options_for_select(Prefecture.data.map { |h| [h[:name], h[:id]] }), {}, {class:"select-box", id:"item-prefecture"} %>
+        <%= f.select :prefecture_id, options_for_select(Prefecture.data.map { |h| [h[:name], h[:id]] }), {}, {class:"select-box", id:"prefecture"} %>
         <div class="weight-bold-text">
           発送までの日数
           <span class="indispensable">必須</span>
-        </div>
-        <%= f.select :days_until_shipping_id, options_for_select(DaysUntilShipping.data.map { |h| [h[:name], h[:id]] }), {}, {class:"select-box", id:"item-scheduled-delivery"} %>
+        </div>--
+        <%= f.select :days_until_shipping_id, options_for_select(DaysUntilShipping.data.map { |h| [h[:name], h[:id]] }), {}, {class:"select-box", id:"day-until-shipping"} %>
         </div>
     </div>
     <%# /配送について %>
