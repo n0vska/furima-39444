@@ -20,8 +20,7 @@ class Item < ApplicationRecord
     validates :days_until_shipping_id
     
     # Price validations with numericality and format
-    validates :price, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999 },
-                      format: { with: /\A\d+\z/, message: "must be a half-width number" }
+    validates :price, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999 }
   end
 
   # Numericality validations for ActiveHash associations
