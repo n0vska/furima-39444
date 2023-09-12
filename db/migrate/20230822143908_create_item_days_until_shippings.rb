@@ -1,4 +1,4 @@
-class CreateDaysUntilShippings < ActiveRecord::Migration[6.0]
+class CreateItemDaysUntilShippings < ActiveRecord::Migration[6.0]
   def change
     create_table :days_until_shippings do |t|
 

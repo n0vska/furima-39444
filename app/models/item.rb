@@ -1,21 +1,32 @@
 class Item < ApplicationRecord
   extend ActiveHash::Associations::ActiveRecordExtensions
-  belongs_to :item_category
-  belongs_to :item_condition
-  belongs_to :prefecture
-  belongs_to :shipping_fee
-  belongs_to :days_until_shipping
+  belongs_to :user
+  belongs_to :category, class_name: 'Category'
+  belongs_to :condition, class_name: 'Condition'
+  belongs_to :prefecture, class_name: 'Prefecture'
+  belongs_to :shipping_fee, class_name: 'ShippingFee'
+  belongs_to :days_until_shipping, class_name: 'DaysUntilShipping'
   has_one_attached :image
 
-  validates :item_category, presence: true
-  validates :item_condition, presence: true
-  validates :prefecture, presence: true
-  validates :shipping_fee, presence: true
-  validates :days_until_shipping, presence: true
+  # Presence validations
+  with_options presence: true do
+    validates :image
+    validates :name
+    validates :description
+    validates :category_id
+    validates :condition_id
+    validates :prefecture_id
+    validates :shipping_fee_id
+    validates :days_until_shipping_id
+    
+    # Price validations with numericality and format
+    validates :price, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999 }
+  end
 
+  # Numericality validations for ActiveHash associations
   with_options numericality: { other_than: 1, message: "can't be blank" } do
-    validates :item_category_id
-    validates :item_condition_id
+    validates :category_id
+    validates :condition_id
     validates :prefecture_id
     validates :shipping_fee_id
     validates :days_until_shipping_id
