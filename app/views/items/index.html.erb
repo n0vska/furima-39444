@@ -144,7 +144,6 @@
                   <span>sold out</span>
                 </div>
               <% end %>
-            </div>
             <div class='item-info'>
               <h3 class='item-name'>
                 <%= item.name %>
@@ -158,14 +157,6 @@
       <% end %>
     <% else %>
       <li class='list'>
-        <!-- ここにダミー商品情報を表示 -->
-      </li>
-    <% end %>
-    </ul>
-  </div>
-
-      <%# 商品がない場合は以下のダミー商品が表示されるようにしましょう %>
-      <%# 商品がある場合は表示されないようにしましょう %>
       <li class='item-contents'>
         <%= link_to '#' do %>
         <%= image_tag "https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg", class: "item-img" %>
@@ -183,11 +174,11 @@
         </div>
         <% end %>
       </li>
-      <%# //商品がある場合は表示されないようにしましょう %>
-      <%# //商品がない場合は以下のダミー商品が表示されるようにしましょう %>
+    <% end %>
     </ul>
   </div>
   <%# /商品一覧 %>
+
 </div>
 <%= link_to(new_item_path, class: 'purchase-btn') do %>
   <span class='purchase-btn-text'>出品する</span>
