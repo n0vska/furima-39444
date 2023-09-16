@@ -31,4 +31,10 @@ class Item < ApplicationRecord
     validates :shipping_fee_id
     validates :days_until_shipping_id
   end
+
+  has_one :purchase_record
+
+  def sold_out?
+    purchase_record.present?
+  end
 end
