@@ -28,13 +28,10 @@
           <p class="or-text">or</p>
           <%= link_to "削除", "#", method: :delete, class:"item-destroy" %>
         <% else %>
-          <%= link_to "購入画面に進む", new_item_order_path(@item), class:"item-red-btn" %>
+          <%= link_to "購入画面に進む", new_item_path(@item), class:"item-red-btn" %>
         <% end %>
       <% elsif user_signed_in? && @item.sold_out? %>
-        <%# 売却済みの場合は何も表示しない %>
       <% else %>
-        <%# ログアウト状態では何も表示しない %>
-        <p>ログインしてください</p>
       <% end %>
     <div class="item-explain-box">
       <span><%= @item.description %></span>
@@ -43,27 +40,28 @@
       <tbody>
         <tr>
           <th class="detail-item">出品者</th>
-          <td class="detail-value"><%= @item.user.name %></td>
+          <td class="detail-value"><%= @item.user.nickname %></td>
         </tr>
         <tr>
           <th class="detail-item">カテゴリー</th>
-          <td class="detail-value"><%= "category_id" %></td>
+          <td class="detail-value"><%= @item.category.name %></td>
         </tr>
         <tr>
           <th class="detail-item">商品の状態</th>
-          <td class="detail-value"><%= "condition_id" %></td>
+          <td class="detail-value"><%= @item.condition.name %></td>
+
         </tr>
         <tr>
           <th class="detail-item">配送料の負担</th>
-          <td class="detail-value"><%= "shipping_fee_id" %></td>
+          <td class="detail-value"><%= @item.shipping_fee.name %></td>
         </tr>
         <tr>
           <th class="detail-item">発送元の地域</th>
-          <td class="detail-value"><%= "prefecture_id" %></td>
+          <td class="detail-value"><%= @item.prefecture.name %></td>
         </tr>
         <tr>
           <th class="detail-item">発送日の目安</th>
-          <td class="detail-value"><%= "days_until_shipping_i" %></td>
+          <td class="detail-value"><%= @item.days_until_shipping.name %></td>
         </tr>
       </tbody>
     </table>
