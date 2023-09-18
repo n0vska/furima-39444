@@ -8,13 +8,11 @@
     </h2>
     <div class="item-img-content">
       <%= image_tag @item.image, class:"item-box-img" if @item.image.attached? %>
-      <%# 商品が売れている場合は、sold outを表示しましょう %>
       <% if @item.sold_out? %>
         <div class="sold-out">
           <span>Sold Out!!</span>
         </div>
       <% end %>
-      <%# //商品が売れている場合は、sold outを表示しましょう %>
     </div>
     <div class="item-price-box">
       <span class="item-price">
@@ -24,26 +22,28 @@
         <%= @item.shipping_fee.name %>
       </span>
     </div>
-
-    <%# ログインしているユーザーと出品しているユーザーが、同一人物の場合と同一人物ではない場合で、処理を分けましょう %>
-    <% if user_signed_in? && current_user.id == @item.user_id %>
-        <%= link_to "商品の編集", edit_item_path(@item), method: :get, class: "item-red-btn" %>
-            <p class="or-text">or</p>
-        <%= link_to "削除", "#", method: :delete, class:"item-destroy" %>
-    <% elsif user_signed_in? %>
-      <%= link_to "購入画面に進む", new_item_order_path(@item) ,class:"item-red-btn" %>
-    <% end %>
-
-    <%# //ログインしているユーザーと出品しているユーザーが、同一人物の場合と同一人物ではない場合で、処理を分けましょう %>
-
+      <% if user_signed_in? && !@item.sold_out? %>
+        <% if current_user.id == @item.user_id %>
+          <%= link_to "商品の編集", edit_item_path(@item), method: :get, class: "item-red-btn" %>
+          <p class="or-text">or</p>
+          <%= link_to "削除", "#", method: :delete, class:"item-destroy" %>
+        <% else %>
+          <%= link_to "購入画面に進む", new_item_order_path(@item), class:"item-red-btn" %>
+        <% end %>
+      <% elsif user_signed_in? && @item.sold_out? %>
+        <%# 売却済みの場合は何も表示しない %>
+      <% else %>
+        <%# ログアウト状態では何も表示しない %>
+        <p>ログインしてください</p>
+      <% end %>
     <div class="item-explain-box">
-      <span><%= "description" %></span>
+      <span><%= @item.description %></span>
     </div>
     <table class="detail-table">
       <tbody>
         <tr>
           <th class="detail-item">出品者</th>
-          <td class="detail-value"><%= "current_user" %></td>
+          <td class="detail-value"><%= @item.user.name %></td>
         </tr>
         <tr>
           <th class="detail-item">カテゴリー</th>
