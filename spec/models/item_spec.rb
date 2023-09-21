@@ -115,6 +115,26 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("User must exist")
       end
+
+
+
+
+
+      it "returns true if there is a purchase record" do
+        user = FactoryBot.create(:user)
+        item = FactoryBot.create(:item, user: user)
+        FactoryBot.create(:purchase_record, item: item, user: user)
+      
+        expect(item.sold_out?).to be true
+      end
+      
+    
+      it "returns false if there is no purchase record" do
+        user = FactoryBot.create(:user)
+        item = FactoryBot.create(:item, user: user)
+      
+        expect(item.sold_out?).to be false
+      end
     end
   end
 end
