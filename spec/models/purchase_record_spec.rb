@@ -12,9 +12,22 @@ RSpec.describe PurchaseRecord, type: :model do
   end
 
   context 'エラーハンドリングテスト' do
-    it '入力に問題がある場合は購入できない' do
+    it 'userが紐づいていなければ登録できない' do
       @purchase_record.user = nil
-      expect(@purchase_record).to_not be_valid
+      @purchase_record.valid?
+      expect(@purchase_record.errors.full_messages).to include("User must exist")
+    end
+
+    it 'itemが紐づいていなければ登録できない' do
+      @purchase_record.item = nil
+      @purchase_record.valid?
+      expect(@purchase_record.errors.full_messages).to include("Item can't be blank")
+    end
+
+    it 'tokenが空では登録できない' do
+      @purchase_record.token = nil
+      @purchase_record.valid?
+      expect(@purchase_record.errors.full_messages).to include("Token can't be blank")
     end
   end
 end
