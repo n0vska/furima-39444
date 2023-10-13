@@ -2,6 +2,9 @@ class PurchaseRecord < ApplicationRecord
   has_one :shipping_address
   belongs_to :user
   belongs_to :item
+  attr_accessor :token
+  validates :item, presence: true
+  validates :token, presence: true
 
   def save_with_shipping(shipping_data)
     saved = false
@@ -10,7 +13,7 @@ class PurchaseRecord < ApplicationRecord
   
       self.save!
       shipping_data[:purchase_record_id] = self.id # ここでpurchase_record_idを設定
-  
+      
       address = ShippingAddress.new(shipping_data)
       unless address.valid?
         self.errors.add(:base, "Shipping address is invalid")

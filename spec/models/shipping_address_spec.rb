@@ -2,20 +2,13 @@ require 'rails_helper'
 
 RSpec.describe ShippingAddress, type: :model do
   before(:all) do
-    # 既存のレコードを全て削除
-    User.destroy_all
-    Item.destroy_all
-    PurchaseRecord.destroy_all
-  
-    # ここで新しいレコードを作成
     user = create(:user)
     item = create(:item, user: user)
     purchase_record = create(:purchase_record, user: user, item: item)
     @shipping_address = build(:shipping_address, purchase_record: purchase_record)
-    
-    puts @shipping_address.valid?
-    puts @shipping_address.errors.full_messages
   end
+  
+  
 
   describe 'バリデーションテスト' do
     it '郵便番号が必須であること' do
