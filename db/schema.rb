@@ -91,12 +91,12 @@ ActiveRecord::Schema.define(version: 2023_09_26_135944) do
 
   create_table "shipping_addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "purchase_record_id", null: false
-    t.string "postal_code"
-    t.integer "prefecture_id"
-    t.string "city"
-    t.string "street_address"
+    t.string "postal_code", null: false
+    t.integer "prefecture_id", null: false
+    t.string "city", null: false
+    t.string "street_address", null: false
     t.string "building_name"
-    t.string "phone_number"
+    t.string "phone_number", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["purchase_record_id"], name: "index_shipping_addresses_on_purchase_record_id"

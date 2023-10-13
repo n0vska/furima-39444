@@ -20,13 +20,7 @@
     </div>
 
     <% if @purchase_record.errors.any? %>
-      <div id="error_explanation">
-        <ul>
-          <% @purchase_record.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
+       <%= render 'shared/error_messages', model: @purchase_record %>
     <% end %>
 
     <%# /購入内容の表示 %>

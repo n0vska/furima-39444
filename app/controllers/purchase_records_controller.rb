@@ -4,39 +4,22 @@ class PurchaseRecordsController < ApplicationController
   before_action :redirect_if_not_allowed, only: [:index, :create]
 
   def index
-    @item = Item.find(params[:item_id])
     @purchase_record = PurchaseRecord.new
   end
 
   def create
-    Rails.logger.debug "Token: #{params[:token]}"
-    @item = Item.find(params[:item_id])
-    @purchase_record = PurchaseRecord.new
-    @purchase_record.user_id = current_user.id 
-    @purchase_record.item_id = params[:item_id]
-    @purchase_record.token = params[:token]
+    @purchase_record = PurchaseRecord.new(purchase_record_params)
   
-    Payjp.api_key = "sk_test_cccecbd471246f4255bf1856"  # PAY.JPテスト秘密鍵
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp::Charge.create(
       amount: @item.price,
       card: params[:token],
       currency: 'jpy'
     )
   
-    shipping_address = {
-      postal_code: params[:purchase_record][:postal_code],
-      prefecture_id: params[:purchase_record][:prefecture_id],
-      city: params[:purchase_record][:city],
-      street_address: params[:purchase_record][:street_address],
-      phone_number: params[:purchase_record][:phone_number]
-    }
-  
-    if @purchase_record.save_with_shipping(shipping_address)
-      Rails.logger.debug "保存に成功しました"
+    if @purchase_record.save_with_shipping(shipping_address_params)
       redirect_to root_path
     else
-      Rails.logger.debug "保存に失敗しました"
-      @item = Item.find(params[:item_id])
       render :index
     end
   end
@@ -44,7 +27,11 @@ class PurchaseRecordsController < ApplicationController
   private
 
   def purchase_record_params
-    params.require(:purchase_record).permit(:price).merge(token: params[:token])
+    params.require(:purchase_record).permit(:price).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
+  end
+
+  def shipping_address_params
+    params.require(:purchase_record).permit(:postal_code, :prefecture_id, :city, :street_address, :phone_number)
   end
 
   def set_item
@@ -57,7 +44,3 @@ class PurchaseRecordsController < ApplicationController
     end
   end
 end
-
-
-
-

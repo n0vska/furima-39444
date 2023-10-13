@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ShippingAddress, type: :model do
-  before(:all) do
+  before(:all   ) do
     user = create(:user)
     item = create(:item, user: user)
     purchase_record = create(:purchase_record, user: user, item: item)
