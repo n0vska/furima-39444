@@ -23,37 +23,56 @@ RSpec.describe ShippingAddress, type: :model do
     context '商品購入ができない時' do
       it '郵便番号が必須であること' do
         @shipping_address.postal_code = nil
-        expect(@shipping_address).to_not be_valid
+        @shipping_address.valid?
+        expect(@shipping_address.errors.full_messages).to include("Postal code は「3桁ハイフン4桁」の形式で入力してください")
       end
 
       it '郵便番号は、3桁ハイフン4桁の半角文字列のみ保存可能であること' do
         @shipping_address.postal_code = '1234567'
-        expect(@shipping_address).to_not be_valid
+        @shipping_address.valid?
+        expect(@shipping_address.errors.full_messages).to include("Postal code は「3桁ハイフン4桁」の形式で入力してください")
       end
 
       it '都道府県が必須であること' do
-        @shipping_address.prefecture_id = nil
-        expect(@shipping_address).to_not be_valid
+        @shipping_address.prefecture_id = 0
+        @shipping_address.valid?
+        expect(@shipping_address.errors.full_messages).to include("Prefecture を選択してください")
       end
 
       it '市区町村が必須であること' do
         @shipping_address.city = nil
-        expect(@shipping_address).to_not be_valid
+        @shipping_address.valid?
+        expect(@shipping_address.errors.full_messages).to include("City can't be blank")
       end
 
       it '番地が必須であること' do
         @shipping_address.street_address = nil
-        expect(@shipping_address).to_not be_valid
+        @shipping_address.valid?
+        expect(@shipping_address.errors.full_messages).to include("Street address can't be blank")
       end
 
       it '電話番号が必須であること' do
         @shipping_address.phone_number = nil
-        expect(@shipping_address).to_not be_valid
+        @shipping_address.valid?
+        expect(@shipping_address.errors.full_messages).to include("Phone number can't be blank")
       end
 
-      it '電話番号は、10桁以上11桁以内の半角数値のみ保存可能であること' do
-        @shipping_address.phone_number = '090-1234-5678'
-        expect(@shipping_address).to_not be_valid
+      it '電話番号が9桁以下では購入できない' do
+        @shipping_address.phone_number = '123456789'
+        @shipping_address.valid?
+        expect(@shipping_address.errors.full_messages).to include("Phone number は10桁以上11桁以下の半角数字で入力してください")
+      end
+  
+      it '電話番号が12桁以上では購入できない' do
+        @shipping_address.phone_number = '123456789012'
+        @shipping_address.valid?
+        expect(@shipping_address.errors.full_messages).to include("Phone number は10桁以上11桁以下の半角数字で入力してください")
+      end
+
+      it '電話番号に半角数字以外が含まれている場合は購入できない' do
+        @shipping_address.phone_number = '123abc4567'
+        @shipping_address.valid?
+        expect(@shipping_address.errors.full_messages).to include("Phone number は10桁以上11桁以下の半角数字で入力してください")
       end
     end
   end
