@@ -5,19 +5,28 @@ class PurchaseRecordsController < ApplicationController
 
   def index
     @purchase_record = PurchaseRecord.new
+    @shipping_address = ShippingAddress.new
   end
 
   def create
     @purchase_record = PurchaseRecord.new(purchase_record_params)
-  
-    if @purchase_record.save_with_shipping(shipping_address_params)
+    @shipping_address = ShippingAddress.new(shipping_address_params) # shipping_address を初期化
+
+    valid_purchase = @purchase_record.valid?
+    valid_address = @shipping_address.valid?
+
+    if valid_purchase && valid_address
       Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
       Payjp::Charge.create(
         amount: @item.price,
         card: params[:token],
         currency: 'jpy'
       )
-      redirect_to root_path
+      if @purchase_record.save_with_shipping(shipping_address_params)
+        redirect_to root_path
+      else
+        render :index
+      end
     else
       render :index
     end
@@ -36,7 +45,7 @@ class PurchaseRecordsController < ApplicationController
   def set_item
     @item = Item.find(params[:item_id])
   end
-  
+
   def redirect_if_not_allowed
     if @item.sold_out? || @item.user_id == current_user.id
       redirect_to root_path
