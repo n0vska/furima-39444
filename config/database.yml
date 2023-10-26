@@ -12,7 +12,6 @@ development:
 
 test:
   <<: *default
-  adapter: mysql2
   username: root
   password:
   host: localhost
